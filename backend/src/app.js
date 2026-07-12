@@ -13,15 +13,18 @@ import studentRoutes from './modules/student/routes/student.route.js';
 import scholarshipRoutes from './modules/scholarship/routes/scholarship.route.js';
 import feePaymentRoutes from './modules/feePayment/routes/feePayment.route.js';
 
+const allowedOrigins = ['http://localhost:5173'];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(cors({
-  origin: (origin, callback) => {
-    callback(null, true);
-  },
-  credentials:true,
-  methods:['GET',"POST","PUT","DELETE","OPTIONS"],
-  allowedHeaders:["Content-Type", "Authorization", "Cookie"],
-  exposedHeaders:["Set-Cookie"]
-}))
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+  exposedHeaders: ["Set-Cookie"]
+}));
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());

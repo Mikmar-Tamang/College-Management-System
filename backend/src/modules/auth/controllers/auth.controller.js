@@ -32,6 +32,8 @@ const loginAdmin = async (req, res) => {
         const {admin, token} = await authService.adminLogin(req.body.collegeEmail, req.body.password);
         res.cookie("token", token,{
             httpOnly:true,
+            secure: true,
+            sameSite: 'none'
         })
         res.status(200).json({ message: 'Admin logged in successfully', admin });
     }catch (error) {
@@ -44,7 +46,9 @@ const loginAdmin = async (req, res) => {
 const logoutAdmin= async (req, res)=>{
     try{
        res.clearCookie("token", {
-        httpOnly:true
+        httpOnly:true,
+        secure: true,
+        sameSite: 'none'
        })
 
        res.json({message: "Logout successfully"})
