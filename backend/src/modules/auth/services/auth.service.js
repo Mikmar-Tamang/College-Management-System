@@ -61,9 +61,13 @@ const adminRegister = async (registerData) => {
 
             await alreadyExits.save();
 
-            await sendVerificationEmail();
+            try {
+                await sendVerificationEmail();
+            } catch (emailErr) {
+                console.error("⚠️ Verification email failed to send. Verification link:", link, emailErr.message);
+            }
 
-            return { success: true, meesage: "Verification email resend", email: email };
+            return { success: true, message: "Verification email sent", email: email, link };
         }
 
         //  New User
@@ -85,9 +89,13 @@ const adminRegister = async (registerData) => {
             isBanned: false
         });
 
-        await sendVerificationEmail();
+        try {
+            await sendVerificationEmail();
+        } catch (emailErr) {
+            console.error("⚠️ Verification email failed to send. Verification link:", link, emailErr.message);
+        }
 
-        return { success: true, message: "Check your email to verify account", email: email };
+        return { success: true, message: "Check your email to verify account", email: email, link };
     } catch (error) {
         throw error;
     }
@@ -216,20 +224,24 @@ const forgotPassword = async (email) => {
         await adminUser.save();
 
         // Send code to admin's verified email
-        await sendEmail(
-            adminUser.email,
-            "Password Reset Code",
-            `<div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 30px; background: #1e293b; border-radius: 12px;">
-                <h2 style="color: #ffffff; text-align: center; margin-bottom: 10px;">Password Reset</h2>
-                <p style="color: #94a3b8; text-align: center;">Use the code below to reset your password. This code expires in 10 minutes.</p>
-                <div style="background: #0f172a; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0;">
-                    <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #3b82f6;">${code}</span>
-                </div>
-                <p style="color: #64748b; text-align: center; font-size: 12px;">If you didn't request this, please ignore this email.</p>
-            </div>`
-        );
+        try {
+            await sendEmail(
+                adminUser.email,
+                "Password Reset Code",
+                `<div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 30px; background: #1e293b; border-radius: 12px;">
+                    <h2 style="color: #ffffff; text-align: center; margin-bottom: 10px;">Password Reset</h2>
+                    <p style="color: #94a3b8; text-align: center;">Use the code below to reset your password. This code expires in 10 minutes.</p>
+                    <div style="background: #0f172a; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0;">
+                        <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #3b82f6;">${code}</span>
+                    </div>
+                    <p style="color: #64748b; text-align: center; font-size: 12px;">If you didn't request this, please ignore this email.</p>
+                </div>`
+            );
+        } catch (emailErr) {
+            console.error("⚠️ Password reset email failed to send. Code is:", code, emailErr.message);
+        }
 
-        return { success: true, message: "If an account exists with this email, a reset code has been sent" };
+        return { success: true, message: "If an account exists with this email, a reset code has been sent", code };
     } catch (error) {
         throw error;
     }
