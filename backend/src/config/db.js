@@ -1,8 +1,9 @@
 import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
+dotenv.config();
 
-const sequelize = new Sequelize("lmsDb", "root", "lms-db-123", {
-  host: "localhost",
-  dialect: "mysql",
+const sequelize = new Sequelize(process.env.MYSQL_PUBLIC_URL,{
+    dialect: "mysql",
 });
 
 const dbConnection = async () => {

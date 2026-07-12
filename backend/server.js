@@ -21,7 +21,7 @@ setupAssociations();
   try {
     // Disable FK checks during sync to avoid constraint errors with existing data
     await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
-    await db.sequelize.sync({alter: true});
+    await db.sequelize.sync();
     await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
     console.log(' All models synced successfully.');
 
