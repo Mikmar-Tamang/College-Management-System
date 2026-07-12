@@ -71,6 +71,14 @@ function ToastItem({ notification, onDismiss }: { notification: Notification; on
       progressColor: 'bg-red-500',
       icon: FiTrash2,
     },
+    registration: {
+      bg: 'bg-purple-50',
+      border: 'border-purple-200',
+      iconBg: 'bg-purple-100',
+      iconColor: 'text-purple-600',
+      progressColor: 'bg-purple-500',
+      icon: FiCheck,
+    },
   };
 
   const config = actionConfig[notification.action] || actionConfig.created;

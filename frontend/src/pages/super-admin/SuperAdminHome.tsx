@@ -11,11 +11,7 @@ import {
   FiCheckCircle,
   FiXOctagon,
   FiBell,
-  FiSearch,
-  FiX,
-  FiClock,
   FiCheck,
-  FiCornerDownLeft,
 } from 'react-icons/fi';
 import axios from 'axios';
 
@@ -106,7 +102,6 @@ function SuperAdminHome() {
   const {
     notifications,
     unreadCount,
-    dismissNotification,
     markAsRead,
     markAllAsRead,
     clearAll,
