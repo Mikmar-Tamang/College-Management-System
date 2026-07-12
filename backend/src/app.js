@@ -14,7 +14,9 @@ import scholarshipRoutes from './modules/scholarship/routes/scholarship.route.js
 import feePaymentRoutes from './modules/feePayment/routes/feePayment.route.js';
 
 app.use(cors({
-  origin:process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    callback(null, true);
+  },
   credentials:true,
   methods:['GET',"POST","PUT","DELETE","OPTIONS"],
   allowedHeaders:["Content-Type", "Authorization", "Cookie"],
